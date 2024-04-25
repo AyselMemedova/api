@@ -2,27 +2,6 @@ const container = document.querySelector(".container");
 const artanButton = document.getElementById("artan");
 const azalanButton = document.getElementById("az");
 
-
-
-artanButton.addEventListener('click',function sort(e){
-    products.sort((a,b)=>a.price-b.price)
-    renderUI(products);
-});
-
-azalanButton.addEventListener('click',function sort(e){
-    products.sort((a,b)=>b.price-a.price)
-    renderUI(products);
-});
-
-const fetchProducts = () => {
-  fetch("https://fakestoreapi.com/products")
-    .then((response) => response.json())
-    .then((json) => {
-      products = json;
-      renderProducts(products);
-    });
-};
-
 const renderProducts = (productsArray) => {
   container.innerHTML = "";
   for (let i = 0; i < productsArray.length; i++) {
@@ -38,4 +17,29 @@ const renderProducts = (productsArray) => {
   }
 };
 
-fetchProducts();
+fetch("https://fakestoreapi.com/products")
+  .then((response) => response.json())
+  .then((json) => {
+    renderProducts(json);
+  });
+
+artanButton.addEventListener("click", (e)=> {
+  fetch("https://fakestoreapi.com/products")
+    .then((response) => response.json())
+    .then((json) => {
+      let list = [...json];
+      list.sort((a, b) => a.price - b.price);
+      renderProducts(list);
+    });
+});
+
+azalanButton.addEventListener("click",(e)=>  {
+  fetch("https://fakestoreapi.com/products")
+    .then((response) => response.json())
+    .then((json) => {
+      let list = [...json];
+      list.sort((a, b) => b.price - a.price);
+      renderProducts(list);
+    });
+});
+
